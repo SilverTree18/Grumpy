@@ -30,7 +30,7 @@
         // event.preventDefault() prevents the form from trying to submit itself.
         // We're using a form so that the user can hit enter instead of clicking the button if they want
         event.preventDefault();
-
+       
         // This line will grab the text from the input box
         var grumpyword = $("#topic-input").val().trim();
         // The wordfrom the textbox is then added to our array
@@ -46,6 +46,9 @@ console.log(grumpyword);
     // Event listener for all button elements
     $("#gifs-buttons").on("click", ".grumpywords", function() {
     	console.log('here');
+      $("#gifDiv").empty();
+
+
       // In this case, the "this" keyword refers to the button that was clicked
      string = $(this).attr("data-name");
 
@@ -63,6 +66,11 @@ console.log(grumpyword);
         //   // Storing an array of results in the results variable
         var results = response.data;
 
+
+
+
+
+
         //Looping over every result item
         for (var i = 0; i < results.length; i++) {
 
@@ -70,7 +78,10 @@ console.log(grumpyword);
         if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
         //       // Creating a div with the class "item"
        var gifDiv = $("<div>");
+       
        gifDiv.addClass("item");
+
+
               
 
              // Creating a paragraph tag with the result item's rating
@@ -79,6 +90,7 @@ console.log(grumpyword);
 
         //       // Creating an image tag
       var grumpyImage = $("<img>");
+      grumpyImage.addClass("gifImg");
 
         //       // Giving the image tag an src attribute of a proprty pulled off the
         //       // result item
@@ -93,24 +105,26 @@ console.log(grumpyword);
       var p = $("<p>").text("Rating: " + rating);
 
               // Appending the paragraph and personImage we created to the "gifDiv" div we created
-              gifDiv.append(grumpyImage);
-              gifDiv.append(p);
+              gifDiv.prepend(grumpyImage);
+              gifDiv.prepend(p);
 
               // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
-              $("#gifs-buttons").append(gifDiv);
+              $("#gifDiv").append(gifDiv);
           
 
             }}
           })
       })
 
-            $(document).on("click",".item", function(){
+            $(document).on("click",".gifImg", function(){
               var state = $(this).attr("data-state");
               if(state === "still") {
-                $(this).attr("src", $(this).attr("animated"));
+                $(this).attr("src", $(this).attr("data-animated"));
                 $(this).attr("data-state","animated");
             }else{
-                $(this).attr("src",$(this).attr("still"));
+                $(this).attr("src",$(this).attr("data-still"));
                 $(this).attr("data-state","still");
             }
             })
+//            $("#gifDiv").empty();
+
